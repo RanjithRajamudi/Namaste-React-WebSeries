@@ -30,9 +30,9 @@ High Level Plan
 - Body
 - - Search
 - - Restaurant Container
--      - Restaurant Card
--          - Image
--          - Name of the Restaurant, Rating, Cuisine, Delivery Time
+-    - Restaurant Card
+-    - Image
+-    - Name of the Restaurant, Rating, Cuisine, Delivery Time
 - Footer
 - - Copyright
 - - Links

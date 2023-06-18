@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-const header = React.createElement("div", { id: "parent" }, [
-    React.createElement("div", { id: "child 1" }, [
-        React.createElement("h1", {}, "hello 1"),
-        React.createElement("h1", {}, "hello 2")
-    ]),
-    React.createElement("div", { id: "child 2" }, [
-        React.createElement("h1", {}, "hello 1"),
-        React.createElement("h1", {}, "hello 2")
-    ]),
-]);
+//Functional Components
+
+const TitleComponent = () => (
+    <h1 className='head'>
+        Namaste React
+    </h1>
+);
+
+const HeaderComponent = () => (
+    <div id="container 1">
+        <TitleComponent />
+        <h1>Hello Welcome to React!</h1>
+    </div>
+);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(header);
+root.render(<HeaderComponent />);

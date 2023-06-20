@@ -1,26 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RestaurantCard from "../RestaurantCard/RestaurantCard";
-import restaurantList from "../utils/mockData";
-
-
+import Shimmer from "../Shimmer/Shimmer";
+import { API_URL } from "../utils/constants";
 
 const Body = () => {
     //Local State Variable - Super powerful variable
-    let [listOfResto, setListOfResto] = useState(restaurantList);
+    const [listOfResto, setListOfResto] = useState([]);
+    const [filteredResto, setFilteredResto] = useState([]);
+    const [inputValue, setInputValue] = useState("");
 
-    return (
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    const fetchData = async () => {
+        const result = await fetch(API_URL)
+        const finalJson = await result.json();
+
+        //Optional Chaining
+        setListOfResto(finalJson?.data?.cards[2]?.data?.data?.cards);
+        setFilteredResto(finalJson?.data?.cards[2]?.data?.data?.cards);
+    }
+    //when the local state variables are updated, react triggers a reconciliation cycle(re-renders the component).
+    console.log("body rendered");
+
+    return listOfResto.length === 0 ? <Shimmer /> : (
         <div className="body">
             <div className='filter'>
+                <div className="search">
+                    <input onChange={(e) => {
+                        setInputValue(e.target.value)
+                    }}
+                        value={inputValue}
+                        type="text"
+                        className="search-box" />
+                    <button onClick={() => {
+                        setFilteredResto(filteredResto.filter(
+                            (list) => list.data.name.toLowerCase().includes(inputValue.toLowerCase()) ?? []
+                        ))
+                    }}
+                    >Search</button>
+
+                </div>
                 <button className="filter-btn" onClick={() => {
-                    setListOfResto(restaurantList.filter(
+                    setListOfResto(listOfResto.filter(
                         (list) => list.data.avgRating >= 4
                     ))
-                    setCount(listOfResto.length);
-                }}>Top Rated Restaurant</button>
+                }}>Top Rated Restaurant </button>
             </div>
             <div className='resto-container'>
-
-                {listOfResto?.map(resto => (
+                {filteredResto?.map(resto => (
                     <RestaurantCard key={resto.data.id} restoData={resto} />
                 ))}
             </div>

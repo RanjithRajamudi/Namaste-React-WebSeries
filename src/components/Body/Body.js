@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import RestaurantCard from "../RestaurantCard/RestaurantCard";
 import Shimmer from "../Shimmer/Shimmer";
+import { Link } from 'react-router-dom'
 import { API_URL } from "../utils/constants";
 
 const Body = () => {
@@ -35,9 +36,10 @@ const Body = () => {
                         type="text"
                         className="search-box" />
                     <button onClick={() => {
-                        setFilteredResto(filteredResto.filter(
+                        const filteredRestaurants = listOfResto.filter(
                             (list) => list.data.name.toLowerCase().includes(inputValue.toLowerCase()) ?? []
-                        ))
+                        );
+                        setFilteredResto(filteredRestaurants);
                     }}
                     >Search</button>
 
@@ -50,7 +52,9 @@ const Body = () => {
             </div>
             <div className='resto-container'>
                 {filteredResto?.map(resto => (
-                    <RestaurantCard key={resto.data.id} restoData={resto} />
+                    <Link key={resto.data.id} to={"/restaurants/" + resto.data.id}>
+                        <RestaurantCard restoData={resto} />
+                    </Link>
                 ))}
             </div>
         </div>

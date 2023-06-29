@@ -3,12 +3,14 @@ import RestaurantCard from "../RestaurantCard/RestaurantCard";
 import Shimmer from "../Shimmer/Shimmer";
 import { Link } from 'react-router-dom'
 import { API_URL } from "../utils/constants";
+import useGetOnlineStatus from "../utils/useGetOnlineStatus";
 
 const Body = () => {
     //Local State Variable - Super powerful variable
     const [listOfResto, setListOfResto] = useState([]);
     const [filteredResto, setFilteredResto] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const onlineStatus = useGetOnlineStatus();
 
     useEffect(() => {
         fetchData();
@@ -24,6 +26,12 @@ const Body = () => {
     }
     //when the local state variables are updated, react triggers a reconciliation cycle(re-renders the component).
     console.log("body rendered");
+
+    if (onlineStatus == false) {
+        return (
+            <h1>Look's like your internet is not working</h1>
+        )
+    }
 
     return listOfResto.length === 0 ? <Shimmer /> : (
         <div className="body">

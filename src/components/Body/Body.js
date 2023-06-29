@@ -25,7 +25,6 @@ const Body = () => {
         setFilteredResto(finalJson?.data?.cards[2]?.data?.data?.cards);
     }
     //when the local state variables are updated, react triggers a reconciliation cycle(re-renders the component).
-    console.log("body rendered");
 
     if (onlineStatus == false) {
         return (
